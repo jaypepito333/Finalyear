@@ -16,6 +16,9 @@ const uint16_t port = 80; //PORT OF THE LOCAL SERVER
 int rank = 4; //THE RANK WHOSE DATA YOU WANT TO FETCH
 HTTPClient http;
 
+#define rxPin D0
+#define txPin D8
+SoftwareSerial sim800L(rxPin, txPin);
 SoftwareSerial uno(D2, D3);
 
 MFRC522 mfrc522(SS_PIN, RST_PIN);
@@ -45,6 +48,14 @@ void setup() {
 
   SPI.begin();
   mfrc522.PCD_Init();
+
+  sim800L.begin(9600);
+  Serial.println("Initializing...");
+  //Once the handshake test is successful, it will back to OK
+  sim800L.println("AT");
+  delay(1000);
+  sim800L.println("AT+CMGF=1");
+  delay(1000);
 
 }
 //void sendRfidLog(String cardid) {
@@ -143,7 +154,12 @@ void GetData(String cardID) {
 
     Serial.println(httpCode);   //Print HTTP  code
     Serial.println(payload);    //Print request response payload
-    if (payload == "success") {
+    if (payload != "") {
+
+      String Number = payload.substring(1, 9);
+      String no = "+254" + Number;
+      Serial.println(no);
+      send_sms(no);
       String json;
       String dest = "Bag Passed Checkin 2";
       String phone = "0718189576";
@@ -227,6 +243,9 @@ void cardIDfromUno(String cardID) {
 void loop() {
   // put your main code here, to run repeatedly:
 
+  while (sim800L.available()) {
+    Serial.println(sim800L.readString());
+  }
   while (uno.available() > 0) {
     StaticJsonDocument<1000> doc;
     DeserializationError error = deserializeJson(doc, uno);
@@ -271,5 +290,17 @@ void loop() {
   Serial.println();
   delay(5000);
 
-
+}
+void send_sms(String Number)
+{
+    Serial.println("sending sms....");
+    delay(50);
+    sim800L.print("AT+CMGF=1\r");
+    delay(1000);
+    sim800L.print("AT+CMGS=\""+Number+"\"\r");
+    delay(1000);
+    sim800L.print("Your Bag is in CheckIn 2");
+    delay(100);
+    sim800L.write(0x1A); //ascii code for ctrl-26 //Serial2.println((char)26); //ascii code for ctrl-26
+    delay(5000);
 }
