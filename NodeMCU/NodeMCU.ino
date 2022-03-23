@@ -6,16 +6,18 @@
 #include <ESP8266HTTPClient.h>
 
 #define SS_PIN D4
-#define RST_PIN D8
+#define RST_PIN D1
 
 
 const char *ssid = "Robaranks"; //WIFI NAME OR HOTSPOT
 const char *password = "1234567890"; //WIFI PASSWORD POR MOBILE HOTSPOT PASSWORD
-const char* host = "http://a992-154-122-137-68.ngrok.io"; //LOCAL IPv4 ADDRESS...ON CMD WINDOW TYPE ipconfig/all
+const char* host = "http://4eec-197-156-190-154.ngrok.io"; //LOCAL IPv4 ADDRESS...ON CMD WINDOW TYPE ipconfig/all
 const uint16_t port = 80; //PORT OF THE LOCAL SERVER
 int rank = 4; //THE RANK WHOSE DATA YOU WANT TO FETCH
 HTTPClient http;
 
+//GSM Module RX pin to NodeMCU D3
+//GSM Module TX pin to NodeMCU D4
 #define rxPin D0
 #define txPin D8
 SoftwareSerial sim800L(rxPin, txPin);
@@ -58,28 +60,6 @@ void setup() {
   delay(1000);
 
 }
-//void sendRfidLog(String cardid) {
-//
-//  if(WiFi.status() == WL_CONNECTED) {
-//    HTTPClient http;
-//    String postData = "cardid=" + String(cardid) + "&action=insertRecord";
-//    http.begin("http://192.168.1.2/RFIDandPHP/process.php");
-//    http.addHeader("Content-Type", "application/x-www-form-urlencoded");
-//
-//    int httpCode = http.POST(postData);
-//    String payload = http.getString();
-//    Serial.println(httpCode);
-//    Serial.println(payload);
-//
-//    if(payload.equals("success")) {
-//     digitalWrite(SUCCESS_PIN, HIGH);
-//    } else {
-//     digitalWrite(ERROR_PIN, HIGH);
-//    }
-//
-//    http.end();
-//  }
-//}
 void SendCardID(String cardID) {
   WiFiClient client;
   //Connection to url failed
@@ -102,7 +82,7 @@ void SendCardID(String cardID) {
     serializeJson(doc, json);
     Serial.println(json);
     //Replace the ngrok url here
-    http.begin(client, "http://c771-154-123-145-186.ngrok.io/api/postdata");     //Specify request destination
+    http.begin(client, "http://4eec-197-156-190-154.ngrok.io/api/postdata");     //Specify request destination
     http.addHeader("Content-Type", "application/json");
     int httpCode = http.POST(json);   //Send the request
     String payload = http.getString();                                        //Get the response payload
@@ -142,12 +122,11 @@ void GetData(String cardID) {
     doc["phone"] = phone;
 
     String card = cardID;
-    String url = "http://c771-154-123-145-186.ngrok.ioo/api/product/search/" + String(1234);
-    Serial.println(url);
+    
     serializeJson(doc, json);
     Serial.println(json);
     //Replace the ngrok url here
-    http.begin(client, "http://a992-154-122-137-68.ngrok.io/api/product/search/" + String(cardID));   //Specify request destination
+    http.begin(client, "http://4eec-197-156-190-154.ngrok.io/api/product/search/" + String(cardID));   //Specify request destination
     http.addHeader("Content-Type", "application/json");
     int httpCode = http.GET();   //Send the request
     String payload = http.getString();                                        //Get the response payload
@@ -156,13 +135,12 @@ void GetData(String cardID) {
     Serial.println(payload);    //Print request response payload
     if (payload != "") {
 
-      String Number = payload.substring(1, 9);
+      String Number = payload.substring(1, 10);
       String no = "+254" + Number;
       Serial.println(no);
       send_sms(no);
       String json;
-      String dest = "Bag Passed Checkin 2";
-      String phone = "0718189576";
+      String dest = "CheckIn 2";
       //Location stored in JSON format
       DynamicJsonDocument doc(200);
       doc["bag_tagID"] = cardID;
@@ -170,7 +148,7 @@ void GetData(String cardID) {
       serializeJson(doc, json);
       Serial.println(json);
       //Replace the ngrok url here
-      http.begin(client, "http://a992-154-122-137-68.ngrok.io/api/status");     //Specify request destination
+      http.begin(client, "http://4eec-197-156-190-154.ngrok.io/api/status");     //Specify request destination
       http.addHeader("Content-Type", "application/json");
       int httpCode = http.POST(json);   //Send the request
       String payload = http.getString();                                        //Get the response payload
@@ -205,12 +183,10 @@ void cardIDfromUno(String cardID) {
     doc["cardID"] = cardID;
 
     String card = cardID;
-    String url = "http://c771-154-123-145-186.ngrok.ioo/api/product/search/" + String(1234);
-    Serial.println(url);
     serializeJson(doc, json);
     Serial.println(json);
     //Replace the ngrok url here
-    http.begin(client, "http://a992-154-122-137-68.ngrok.io/api/product/search/" + String(cardID));   //Specify request destination
+    http.begin(client, "http://4eec-197-156-190-154.ngrok.io/api/product/search/" + String(cardID));   //Specify request destination
     http.addHeader("Content-Type", "application/json");
     int httpCode = http.GET();   //Send the request
     String payload = http.getString();                                        //Get the response payload
@@ -219,7 +195,7 @@ void cardIDfromUno(String cardID) {
     Serial.println(payload);    //Print request response payload
     if (payload == "success") {
       String json;
-      String dest = "Bag Passed Checkin 2";
+      String dest = "CheckIn 2";
       //Location stored in JSON format
       DynamicJsonDocument doc(200);
       doc["bag_tagID"] = cardID;
@@ -227,7 +203,7 @@ void cardIDfromUno(String cardID) {
       serializeJson(doc, json);
       Serial.println(json);
       //Replace the ngrok url here
-      http.begin(client, "http://a992-154-122-137-68.ngrok.io/api/status");     //Specify request destination
+      http.begin(client, "http://4eec-197-156-190-154.ngrok.io/api/status");     //Specify request destination
       http.addHeader("Content-Type", "application/json");
       int httpCode = http.POST(json);   //Send the request
       String payload = http.getString();                                        //Get the response payload
