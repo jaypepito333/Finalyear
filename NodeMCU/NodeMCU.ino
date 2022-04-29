@@ -60,44 +60,6 @@ void setup() {
   updateSerial();
 
 }
-void SendCardID(String cardID) {
-  WiFiClient client;
-  //Connection to url failed
-  if (!client.connect(host, port)) {
-    Serial.println("connection failed");
-    delay(5000);
-    return;
-  }
-  //Connection successfully
-  if (client.connected()) {
-
-    String json;
-    String dest = "Terminal 1";
-    String phone = "0718189576";
-    //Location stored in JSON format
-    DynamicJsonDocument doc(200);
-    doc["cardID"] = cardID;
-    doc["destination"] = dest;
-    doc["phone"] = phone;
-    serializeJson(doc, json);
-    Serial.println(json);
-    //Replace the ngrok url here
-    http.begin(client, "http://334f-154-122-213-31.ngrok.io/api/postdata");     //Specify request destination
-    http.addHeader("Content-Type", "application/json");
-    int httpCode = http.POST(json);   //Send the request
-    String payload = http.getString();                                        //Get the response payload
-
-    Serial.println(httpCode);   //Print HTTP  code
-    Serial.println(payload);    //Print request response payload
-    if (httpCode == 201) {
-      Serial.println("Data Saved");
-    }
-
-    http.end();
-    delay(10000);
-
-  }
-}
 
 void GetData(String cardID) {
   WiFiClient client;
@@ -124,7 +86,6 @@ void GetData(String cardID) {
     String card = cardID;
 
     serializeJson(doc, json);
-    Serial.println(json);
     //Replace the ngrok url here
     http.begin(client, "http://334f-154-122-213-31.ngrok.io/api/product/search/" + String(cardID));   //Specify request destination
     http.addHeader("Content-Type", "application/json");
