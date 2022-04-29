@@ -10,4 +10,5 @@ To Start With:
     5. start ngrok eg ./ngrok http 8000 -> port where laravel is running at.
     6. Copy the URL generated at Forwording with eg http://ea26-197-156-190-211.ngrok.io.
     7. Paste it in the code to replace the one that is There. eg *host.
-    
+ # Upload code
+   Go to Tools -> Board -> ESP8266 boards -> select NodeMcu1.0(ESP-12E Module) 
