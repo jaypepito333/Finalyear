@@ -11,8 +11,8 @@ To Start With:
     - Copy the URL generated at Forwording with eg http://ea26-197-156-190-211.ngrok.io.
     - Paste it in the code to replace the one that is There. eg *host.
  # Upload code
-   Go to Tools -> Board -> ESP8266 boards -> select NodeMcu1.0(ESP-12E Module).
-   In Tools -> Port -> select COM * without the name Arduino.
+   - **Go to Tools -> Board -> ESP8266 boards -> select NodeMcu1.0(ESP-12E Module).
+   - **In Tools -> Port -> select COM * without the name Arduino.
    
  # ARDUINO UNO CODE(GETRFID_ID_FROM ARDUINO)
   *UPLOAD CODE
