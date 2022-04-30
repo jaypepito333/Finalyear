@@ -15,7 +15,7 @@ To Start With:
    - ** In Tools -> Port -> select COM * without the name Arduino.
    
  # ARDUINO UNO CODE(GETRFID_ID_FROM ARDUINO)
-  *UPLOAD CODE
-      Go to Tools -> Board -> Arduino AVR boards -> select Arduino Uno.
-      In Tools -> Port -> select COM * with the name Arduino.
+  ### UPLOAD CODE
+   -  Go to Tools -> Board -> Arduino AVR boards -> select Arduino Uno.
+   -  In Tools -> Port -> select COM * with the name Arduino.
  
