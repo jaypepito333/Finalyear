@@ -106,7 +106,7 @@ void GetData(String cardID) {
       send_sms(no);
       delay(2000);
       String json;
-      String dest = "CheckIn 1";
+      String dest = "Sort Area 1";
       //Location stored in JSON format
       DynamicJsonDocument doc(200);
       doc["bag_tagID"] = cardID;
@@ -140,7 +140,7 @@ void cardIDfromUno(String cardID) {
   if (client.connected()) {
 
     String json;
-    String dest = "Bag At CheckIn 2";
+    String dest = "Bag At Sort Area 2";
     String phone;
 
     //Location stored in JSON format
@@ -169,7 +169,7 @@ void cardIDfromUno(String cardID) {
       send_sms1(no);
       delay(2000);
       String json;
-      String dest = "CheckIn 2";
+      String dest = "Sort Area 2";
       //Location stored in JSON format
       DynamicJsonDocument doc(200);
       doc["bag_tagID"] = cardID;
@@ -269,7 +269,7 @@ void send_sms(String num)
   delay(1000);
   sim800L.print("AT+CMGS=\"" + num + "\"\r");
   delay(1000);
-  sim800L.print("Your Bag is in CheckIn 1");
+  sim800L.print("Your Bag is in Sort Area 1");
   delay(100);
   sim800L.write(0x1A); //ascii code for ctrl-26 //Serial2.println((char)26); //ascii code for ctrl-26
   delay(5000);
@@ -282,7 +282,7 @@ void send_sms1(String num)
   delay(1000);
   sim800L.print("AT+CMGS=\"" + num + "\"\r");
   delay(1000);
-  sim800L.print("Your Bag is in CheckIn 2");
+  sim800L.print("Your Bag is in Sort Area 2");
   delay(100);
   sim800L.write(0x1A); //ascii code for ctrl-26 //Serial2.println((char)26); //ascii code for ctrl-26
   delay(5000);
