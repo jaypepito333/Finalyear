@@ -189,18 +189,6 @@ void cardIDfromUno(String cardID) {
     delay(10000);
   }
 }
-//void updateSerial()
-//{
-//  delay(500);
-//  while (Serial.available())
-//  {
-//    sim800L.write(Serial.read());//Forward what Serial received to Software Serial Port
-//  }
-//  while (sim800L.available())
-//  {
-//    Serial.write(sim800L.read());//Forward what Software Serial received to Serial Port
-//  }
-//}
 
 void loop() {
   // put your main code here, to run repeatedly:
