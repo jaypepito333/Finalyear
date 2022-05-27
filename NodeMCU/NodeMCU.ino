@@ -9,16 +9,11 @@
 #define RST_PIN D0
 
 
-const char *ssid = "Robaranks"; //WIFI NAME OR HOTSPOT
-const char *password = "1234567890"; //WIFI PASSWORD POR MOBILE HOTSPOT PASSWORD
+const char *ssid = "Enter Name of your wifi or Hotspot"; //WIFI NAME OR HOTSPOT
+const char *password = "Enter Password"; //WIFI PASSWORD POR MOBILE HOTSPOT PASSWORD
 const char* host = "http://334f-154-122-213-31.ngrok.io"; //LOCAL IPv4 ADDRESS...ON CMD WINDOW TYPE ipconfig/all
 const uint16_t port = 80; //PORT OF THE LOCAL SERVER
 HTTPClient http;
-
-//GSM Module RX pin to NodeMCU D0
-//GSM Module TX pin to NodeMCU D8
-//#define rxPin D2
-//#define txPin D3
 SoftwareSerial sim800L(D2, D3);
 SoftwareSerial uno(D1, D8);
 
@@ -27,9 +22,6 @@ MFRC522 mfrc522(SS_PIN, RST_PIN);
 void setup() {
   Serial.begin(9600);
   uno.begin(4800);
-
-  //  pinMode(D0, INPUT);
-  //  pinMode(D8, OUTPUT);
   WiFi.mode(WIFI_OFF);
   delay(1000);
   WiFi.mode(WIFI_STA);
@@ -73,7 +65,7 @@ void GetData(String cardID) {
   if (client.connected()) {
 
     String json;
-    String dest = "Bag At CheckIn 2";
+    String dest = "Bag At Sort Area";
     String phone;
 
     //Location stored in JSON format
